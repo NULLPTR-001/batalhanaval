@@ -1,7 +1,6 @@
 #include "plataforma.h"
 #include <iostream>
 #ifdef _WIN32
-#include <windows.h> 
 #else
 #include <unistd.h>  
 #endif
@@ -9,9 +8,17 @@ using namespace std;
 
 void limparTela() {
 #ifdef _WIN32
+#ifdef _WIN32
     system("cls");
 #else
     system("clear");
+#endif
+#else
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
 #endif
 }
 
@@ -114,4 +121,4 @@ bool Plataforma::tabuleiroCompleto() const {
         }
     }
     return true;
-}
+} 
