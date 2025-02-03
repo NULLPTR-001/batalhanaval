@@ -1,10 +1,10 @@
 #include "batalhaNaval.h"
 #include <iostream>
-#include <cstdlib>  
-#include <ctime>   
+#include <cstdlib>  // Para rand() e srand()
+#include <ctime>    // Para time()
 
 BatalhaNaval::BatalhaNaval() : dados("data/historico.txt") {
-    srand(static_cast<unsigned int>(time(0)));
+    srand(static_cast<unsigned int>(time(0)));  // Inicializa a semente do gerador de números aleatórios
 }
 
 std::vector<Coordenada> BatalhaNaval::gerarPosicaoAleatoria(int tamanhoNavio, int tamanhoTabuleiro, std::vector<std::vector<bool>>& tabuleiro) {
@@ -13,7 +13,7 @@ std::vector<Coordenada> BatalhaNaval::gerarPosicaoAleatoria(int tamanhoNavio, in
 
     while (!posicaoValida) {
         posicoes.clear();
-        bool horizontal = rand() % 2;
+        bool horizontal = rand() % 2; // 0 para vertical, 1 para horizontal
         int linha, coluna;
 
         if (horizontal) {
@@ -36,7 +36,7 @@ std::vector<Coordenada> BatalhaNaval::gerarPosicaoAleatoria(int tamanhoNavio, in
         if (posicoes.size() == tamanhoNavio) {
             posicaoValida = true;
             for (const auto& coord : posicoes) {
-                tabuleiro[coord.getLinha()][coord.getColuna()] = true; 
+                tabuleiro[coord.getLinha()][coord.getColuna()] = true; // Marca posição como ocupada
             }
         }
     }
@@ -51,9 +51,11 @@ void BatalhaNaval::iniciar() {
     int tamanhoTabuleiro = 10;
     std::vector<std::vector<bool>> tabuleiro(tamanhoTabuleiro, std::vector<bool>(tamanhoTabuleiro, false));
 
+    // Geração aleatória das posições dos navios
     std::vector<Coordenada> posicoesNavio1 = gerarPosicaoAleatoria(3, tamanhoTabuleiro, tabuleiro);
     std::vector<Coordenada> posicoesNavio2 = gerarPosicaoAleatoria(3, tamanhoTabuleiro, tabuleiro);
 
+    // Criação dos navios
     Navio navio1(3, posicoesNavio1);
     Navio navio2(3, posicoesNavio2);
 
@@ -61,10 +63,11 @@ void BatalhaNaval::iniciar() {
     plataforma.posicaoDoNavio(navio1);
     plataforma.posicaoDoNavio(navio2);
 
+    // Inicia a partida
     Partida partida(plataforma, &player1, &player2);
     partida.iniciar();
 
+    // Salva o vencedor
     dados.salvarPartida(partida.getVencedor());
 
 }
-
